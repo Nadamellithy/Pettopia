@@ -38,10 +38,10 @@ class puserController extends Controller
 
     public function register(Request $request)
     {
-        $file_extension=$request->photo->getClientOriginalExtension();
-        $file_name=time().'.'.$file_extension;
-        $path='image/user';
-        $request->photo->move($path,$file_name);
+//        $file_extension=$request->photo->getClientOriginalExtension();
+//        $file_name=time().'.'.$file_extension;
+//        $path='image';
+//        $request->photo->move($path,$file_name);
 
         $Validator = Validator::make($request->all(), [
             'name' => 'required | max :190 |string |Alpha',
@@ -58,7 +58,7 @@ class puserController extends Controller
                     'e_mail' => $request->e_mail,
                     'phone' => $request->phone,
                     'gender' => $request->gender,
-                    'photo' => $file_name,
+                    'photo' => $request->photo,
                     'password' => $request->password,
                     'age' => $request->age,
                     // 'api_token' => Str::random(60),
@@ -242,7 +242,7 @@ class puserController extends Controller
     {
         $Pusers = Puser::where('e_mail', $request->e_mail)->get();
         if ($Pusers->count() != 0) {
-            return 1;
+            return $Pusers[0]->id;
         } else {
             return 0;
         }
